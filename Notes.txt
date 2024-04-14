@@ -61,6 +61,10 @@ form.onsubmit = async (event: Event) => {
     console.error('Error fetching data:', error);
   }
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> eb96bc04f16ddf4a06769b18d5794afc52d1d04f
 // Import stylesheets
 import './style.css';
 
