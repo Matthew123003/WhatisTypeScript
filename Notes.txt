@@ -1,0 +1,132 @@
+The JavaScript code you provided is the compiled version of your TypeScript code. It uses JavaScript constructs 
+such as Promise and generator functions to handle asynchronous operations using the __awaiter function. This function
+ is used to translate the async and await syntax from TypeScript to an equivalent structure in JavaScript that works 
+ in older JavaScript environments.
+
+Here's what the compiled JavaScript code does:
+
+Imports: It starts by importing the stylesheets (require("./style.css");) just like in your TypeScript code.
+
+Form Selection: It selects the form element with the ID #defineform.
+
+Form Submission: An event listener is added to the form's onsubmit event, which triggers an asynchronous function 
+(__awaiter) when the form is submitted.
+
+Event Handling: In the async function, event.preventDefault() is called to prevent the default form submission, 
+and the code retrieves the form data and the word to define.
+
+Fetch API: The code uses the Fetch API to get data from the dictionary API for the entered word and then processes 
+the JSON response.
+
+Definition Extraction: It extracts the definition from the response data using optional chaining (?.) and provides 
+a default message ('Definition not found.') in case the definition is not found.
+
+Definition Display: If the definition element exists in the HTML document, the code updates its innerText with the 
+retrieved definition.
+
+Error Handling: If an error occurs while fetching the data, it logs the error to the console.
+
+The compiled JavaScript code should work in modern JavaScript environments, as it uses features like Promise and the 
+Fetch API. To use this JavaScript file in your HTML file, make sure to include it in a <script> tag in the HTML file. 
+For example:
+
+html
+Copy code
+<script src="path/to/your/compiled/javascript/file.js"></script>
+
+Replace "path/to/your/compiled/javascript/file.js" with the correct path to the JavaScript file in your project.
+ Make sure the script tag is placed in your HTML file so that it executes after the HTML elements are loaded. 
+ Typically, this script tag would be placed at the bottom of the body section.
+
+ //Also dont know why the doctype has to be not HTML either
+
+ // Import stylesheets
+import './style.css';
+const form = document.querySelector('#defineform') as HTMLFormElement;
+form.onsubmit = async (event: Event) => {
+  event.preventDefault();
+  const formData = new FormData(form);
+  const word: string = formData.get('defineword') as string;
+  try {
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    const data = await response.json();
+    const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition || 'Definition not found.';
+    const definitionElement = document.getElementById('definition');
+    if (definitionElement) {
+      definitionElement.innerText = definition;
+    } else {
+      console.error('Element with id "definition" not found');
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+<<<<<<< HEAD
+=======
+
+>>>>>>> eb96bc04f16ddf4a06769b18d5794afc52d1d04f
+// Import stylesheets
+import './style.css';
+
+
+const form: HTMLFormElement = document.querySelector('#defineform') as HTMLFormElement;
+
+interface DefineWord {
+  word:string,
+  phonetic:string,
+  phonetics: [
+    {
+      text:string,
+      audio:string
+    },
+  ],
+  origin:string,
+  meanings: [
+    {
+      partOfSpeech:string,
+      definitions: [
+        {
+          definition:string,
+          example:string,
+          synonyms: [],
+          antonyms: []
+        }
+      ]
+    }
+  ]
+}
+
+// https://www.sohamkamani.com/typescript/rest-http-api-call/
+function getDefineWord(word: string) : Promise<DefineWord>{
+
+  // const headers: Headers = new Headers()
+  // headers.set('Content-Type', 'application/json')
+  // headers.set('Accept', 'application/json')
+  // headers.set('X-Custom-Header', 'Test')
+
+  // Create the request object, which will be a RequestInfo type. 
+  // Here, we will pass in the URL as well as the options object as parameters.
+  const request: RequestInfo = new Request(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`, {
+    method: 'GET',
+    // headers: headers
+  })
+
+  return fetch(request)
+    .then(res => res.json())
+    .then(res => {
+      return res as DefineWord;
+    });
+}
+
+form.onsubmit = () => {
+  const formData = new FormData(form);
+
+  console.log(formData);
+  const text = formData.get('defineword') as string;
+  console.log(text);
+
+  var word = getDefineWord(text);
+  // const test: HTMLFormElement = document.querySelector('#test') as HTMLFormElement;
+  // test.innerText = word;
+  return false; // prevent reload
+};
