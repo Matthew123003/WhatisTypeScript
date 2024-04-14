@@ -1,59 +1,21 @@
 // Import stylesheets
 import './style.css';
-
-const baseurl: string = "https://api.dictionaryapi.dev/api/v2/entries/en/";
-
-const form: HTMLFormElement = document.querySelector('#defineform');
-const wordname: HTMLParagraphElement = document.querySelector('.lead');
-
-form.onsubmit = () => {
+const form = document.querySelector('#defineform') as HTMLFormElement;
+form.onsubmit = async (event: Event) => {
+  event.preventDefault();
   const formData = new FormData(form);
-
-  console.log(formData);
-  const text = formData.get('defineword') as string;
-  // console.log(text);
-  let on = getWord(text);
-  on.then(words => {
-    wordname.innerHTML = words[0].word;
-  })
-  return false; // prevent reload
+  const word: string = formData.get('defineword') as string;
+  try {
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    const data = await response.json();
+    const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition || 'Definition not found.';
+    const definitionElement = document.getElementById('definition');
+    if (definitionElement) {
+      definitionElement.innerText = definition;
+    } else {
+      console.error('Element with id "definition" not found');
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 };
-
-function getWord(text: string) {
-  let url: URL = new URL(baseurl + text);
-  let request: RequestInfo = new Request(url, {
-    method: 'GET'
-  })
-  let promise = fetch(request).then(r => r.json()).then(r => {return r as Word[]});
-  return promise;
-}
-
-interface Word {
-  "word": string;
-  "phonetic": string;
-  "phonetics": Phonetic[];
-  "meanings": Meaning[];
-  "license": License;
-  "sourceUrls": string[];
-}
-
-interface Definition {
-  "definition": string;
-  "synonyms": Word[];
-  "antonyms": Word[];
-}
-
-interface License {
-  "name": string;
-  "url": string;
-}
-
-interface Phonetic {
-  "text": string;
-  "audio": string;
-}
-
-interface Meaning {
-  "partOfSpeech": string;
-  "definitions": Definition[];
-}
