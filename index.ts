@@ -1,7 +1,10 @@
 // Import stylesheets
-import './style.css';
+// import './style.css';
+
+const fm = document.getElementById('defineform') as HTMLFormElement;
+
 const form = document.querySelector('#defineform') as HTMLFormElement;
-form.onsubmit = async (event: Event) => {
+fm.onsubmit = async (event: Event) => {
   event.preventDefault();
   const formData = new FormData(form);
   const word: string = formData.get('defineword') as string;
