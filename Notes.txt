@@ -33,4 +33,7 @@ For example:
 html
 Copy code
 <script src="path/to/your/compiled/javascript/file.js"></script>
-Replace "path/to/your/compiled/javascript/file.js" with the correct path to the JavaScript file in your project. Make sure the script tag is placed in your HTML file so that it executes after the HTML elements are loaded. Typically, this script tag would be placed at the bottom of the body section.
+
+Replace "path/to/your/compiled/javascript/file.js" with the correct path to the JavaScript file in your project.
+ Make sure the script tag is placed in your HTML file so that it executes after the HTML elements are loaded. 
+ Typically, this script tag would be placed at the bottom of the body section.

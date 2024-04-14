@@ -1,5 +1,5 @@
 // Import stylesheets
-import './style.css';
+//import './style.css';
 const form = document.querySelector('#defineform') as HTMLFormElement;
 form.onsubmit = async (event: Event) => {
   event.preventDefault();
