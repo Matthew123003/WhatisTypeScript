@@ -37,3 +37,5 @@ Copy code
 Replace "path/to/your/compiled/javascript/file.js" with the correct path to the JavaScript file in your project.
  Make sure the script tag is placed in your HTML file so that it executes after the HTML elements are loaded. 
  Typically, this script tag would be placed at the bottom of the body section.
+
+ //Also dont know why the doctype has to be not HTML either

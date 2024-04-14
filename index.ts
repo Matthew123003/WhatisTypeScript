@@ -9,7 +9,6 @@ form.onsubmit = async (event: Event) => {
     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
     const data = await response.json();
     const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition || 'Definition not found.';
-    // Check if element exists before setting innerText
     const definitionElement = document.getElementById('definition');
     if (definitionElement) {
       definitionElement.innerText = definition;
