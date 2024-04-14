@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import stylesheets
-//require("./style.css");
+require("./style.css");
 const form = document.querySelector('#defineform');
 form.onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     event.preventDefault();
-    console.log("Form submitted");
+    console.timeLog("Form submitted")
     const formData = new FormData(form);
     const word = formData.get('defineword');
     console.log("Word to define:", word);
@@ -28,12 +28,13 @@ form.onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const data = yield response.json();
         console.log("API data:", data);
+
         const definition = ((_c = (_b = (_a = data[0]) === null || _a === void 0 ? void 0 : _a.meanings[0]) === null || _b === void 0 ? void 0 : _b.definitions[0]) === null || _c === void 0 ? void 0 : _c.definition) || 'Definition not found.';
-        // Check if element exists before setting innerText
         const definitionElement = document.getElementById('definition');
         if (definitionElement) {
             definitionElement.innerText = definition;
             console.log("Definition set:", definition);
+
         }
         else {
             console.error('Element with id "definition" not found');
